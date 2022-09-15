@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { User, Prisma } from '@prisma/client';
+import { UsuarioDTO } from './usuario.atualizarUsuarioDto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async buscaUsuario(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
@@ -31,26 +32,42 @@ export class UserService {
     });
   }
 
+  async buscaTodosOsUsuarios(): Promise<User[]> {
+    return this.prisma.user.findMany();
+  }
+
   async criaUsuario(data: Prisma.UserCreateInput): Promise<User> {
+
+    const usuario = await this.prisma.user.findUnique({
+      where: {
+        email: data.email,
+      },
+    })
+
+    if (usuario) {
+      throw new Error("Email já esta vinculado a outro usuario...")
+    }
+
     return this.prisma.user.create({
       data,
     });
   }
 
-  async atualizaUsuario(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.UserUpdateInput;
-  }): Promise<User> {
-    const { where, data } = params;
-    return this.prisma.user.update({
-      data,
-      where,
+  async atualizaUsuario(id: number, updateDto: UsuarioDTO): Promise<User> {
+    //const { where, data } = params;
+    const usuarioAtualizado = this.prisma.user.update({
+      where: { id },
+      data: updateDto,
     });
+
+    return usuarioAtualizado;
   }
 
-  async deletaUsuario(where: Prisma.UserWhereUniqueInput): Promise<User> {
+
+  async deletaUsuario(where: Prisma.PostWhereUniqueInput): Promise<User> {
     return this.prisma.user.delete({
       where,
     });
   }
+
 }
