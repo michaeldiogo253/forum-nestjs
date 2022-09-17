@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PostController } from './post.controller';
-import { PostService } from './post.service';
+import { PostController } from './posts/post.controller';
+import { PostService } from './posts/post.service';
 import { PrismaService } from './prisma.service';
-import { UsuarioController } from './user.controller';
-import { UserService } from './user.service';
+import { UsuarioController } from './user/user.controller';
+import { UserService } from './user/user.service';
 
 @Module({
   imports: [],
