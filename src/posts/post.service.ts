@@ -5,7 +5,6 @@ import { Post, Prisma } from '@prisma/client';
 @Injectable()
 export class PostService {
 
-
   constructor(private prisma: PrismaService) { }
 
   async post(
@@ -45,7 +44,7 @@ export class PostService {
     data: Prisma.PostUpdateInput;
   }): Promise<Post> {
     const { data, where } = params;
-    return  await this.prisma.post.update({
+    return await this.prisma.post.update({
       data,
       where,
     });
@@ -74,4 +73,5 @@ export class PostService {
     return allPosts;
   }
 
+  
 }

@@ -49,4 +49,11 @@ export class UsuarioController {
     return this.userService.deletaUsuario({ id: Number(id) });
   }
 
+  @Get('relatorio-usuario-posts/:idUser')
+    async findRelatorioDeTodosOsPosts(@Param('idUser') idUser: string ) {
+
+        return await this.userService.findRelatorioDeTodosOsPosts(Number(idUser));
+
+    }
+
 }

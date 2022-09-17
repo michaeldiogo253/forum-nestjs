@@ -1,18 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { User, Prisma } from '@prisma/client';
+import { User, Prisma, Post } from '@prisma/client';
 import { UsuarioDTO } from './usuario.atualizarUsuarioDto';
 
 @Injectable()
 export class UserService {
+  
   constructor(private prisma: PrismaService) { }
 
   async buscaUsuario(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    const usuario =  await this.prisma.user.findUnique({
       where: userWhereUniqueInput,
     });
+
+    if(!usuario){
+      throw new NotFoundException("Usuario não encontrado");
+    }
+
+    return usuario;
   }
 
   async buscaUsuarios(params: {
@@ -69,6 +76,20 @@ export class UserService {
     return this.prisma.user.delete({
       where,
     });
+  }
+
+  async findRelatorioDeTodosOsPosts(userId: number): Promise<User & {posts: Post[]}>  {
+    const relatorio = await this.prisma.user.findMany({
+      where:{
+        id: userId
+      }, 
+      include: {
+        posts: true
+      }
+    });
+
+    return relatorio;
+
   }
 
 }

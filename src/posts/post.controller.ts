@@ -75,10 +75,10 @@ export class PostController {
         return await this.postService.deletePost({ id: Number(id) });
     }
 
-    @Get('find-post-by-author-id/{: authorId}')
-    async findPostByAuthorId(@Param('authorId') authorId: number) {
+    @Get('find-post-by-author-id/:authorId')
+    async findPostByAuthorId(@Param('authorId') authorId: string) {
 
-        return await this.postService.findPostByAuthorId(authorId);
+        return await this.postService.findPostByAuthorId(Number(authorId));
 
     }
 
@@ -100,4 +100,5 @@ export class PostController {
             },
         });
     }
+
 }
