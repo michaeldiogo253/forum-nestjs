@@ -5,6 +5,7 @@ import { Post, Prisma } from '@prisma/client';
 @Injectable()
 export class PostService {
 
+
   constructor(private prisma: PrismaService) { }
 
   async post(
@@ -73,5 +74,16 @@ export class PostService {
     return allPosts;
   }
 
-  
+  async viewPost(idPost: number) :Promise<Post>{
+    return await this.prisma.post.update({
+      where: {
+        id: idPost
+      },
+      data: {
+        viewCount: {
+          increment: 1
+        }
+      }
+    })
+  }
 }

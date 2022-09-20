@@ -101,4 +101,10 @@ export class PostController {
         });
     }
 
+    @Put('post/view/:idPost')
+    async vizualizarPost(@Param('idPost') idPost: string) :Promise<PostModel>{
+
+        return await this.postService.viewPost(+idPost);
+    }
+
 }

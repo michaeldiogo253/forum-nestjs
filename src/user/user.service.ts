@@ -5,17 +5,17 @@ import { UsuarioDTO } from './usuario.atualizarUsuarioDto';
 
 @Injectable()
 export class UserService {
-  
+
   constructor(private prisma: PrismaService) { }
 
   async buscaUsuario(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
-    const usuario =  await this.prisma.user.findUnique({
+    const usuario = await this.prisma.user.findUnique({
       where: userWhereUniqueInput,
     });
 
-    if(!usuario){
+    if (!usuario) {
       throw new NotFoundException("Usuario não encontrado");
     }
 
@@ -68,7 +68,7 @@ export class UserService {
     });
 
     return usuarioAtualizado;
-    
+
   }
 
 
@@ -78,11 +78,13 @@ export class UserService {
     });
   }
 
-  async findRelatorioDeTodosOsPosts(userId: number): Promise<User & {posts: Post[]}>  {
+  async findRelatorioDeTodosOsPosts(userId: number): Promise<(User & {
+    posts: Post[];
+  })[]> {
     const relatorio = await this.prisma.user.findMany({
-      where:{
+      where: {
         id: userId
-      }, 
+      },
       include: {
         posts: true
       }
