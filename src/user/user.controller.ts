@@ -12,6 +12,7 @@ import {
 import { UserService } from './user.service';
 import { User, User as UserModel } from '@prisma/client';
 import { UsuarioDTO } from './usuario.atualizarUsuarioDto';
+import { CadastrarUsuarioRequest } from './cadastrar-usuario.response';
 
 
 @Controller('/user')
@@ -22,9 +23,9 @@ export class UsuarioController {
 
   @Post('/cadastrar')
   async signupUser(
-    @Body() userData: { name?: string; email: string },
+    @Body() cadastrarUsuarioRequest: CadastrarUsuarioRequest,
   ): Promise<UserModel> {
-    return this.userService.criaUsuario(userData);
+    return this.userService.criaUsuario(cadastrarUsuarioRequest);
   }
 
   @Get('/buscar-por-id/:idUsuario')
