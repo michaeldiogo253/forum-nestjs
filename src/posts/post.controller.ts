@@ -10,6 +10,7 @@ import {
 import { PostService } from './post.service';
 import { User as UserModel, Post as PostModel } from '@prisma/client';
 import { AtualizarPostDTO } from './post.atualizarPost.DTO';
+import { CadastrarPostRequest } from './cadastrar-post.request';
 
 @Controller()
 export class PostController {
@@ -49,9 +50,10 @@ export class PostController {
 
     @Post('post')
     async createDraft(
-        @Body() postData: { title: string; content?: string; authorEmail: string },
+        @Body() postData: CadastrarPostRequest,
     ): Promise<PostModel> {
         const { title, content, authorEmail } = postData;
+        
         return await this.postService.createPost({
             title,
             content,

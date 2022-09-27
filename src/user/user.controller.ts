@@ -12,7 +12,7 @@ import {
 import { UserService } from './user.service';
 import { User, User as UserModel } from '@prisma/client';
 import { UsuarioDTO } from './usuario.atualizarUsuarioDto';
-import { CadastrarUsuarioRequest } from './cadastrar-usuario.response';
+import { CadastrarUsuarioRequest } from './cadastrar-usuario.request';
 
 
 @Controller('/user')
